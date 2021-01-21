@@ -1,6 +1,7 @@
 <template>
   <Top />
   <router-view/>
+  <Bottom />
 </template>
 
 <style>
@@ -11,7 +12,8 @@
 
 <script>
 import Top from './components/Top'
+import Bottom from "@/components/Bottom";
 export default {
-  components: { Top }
+  components: {Bottom, Top }
 }
 </script>
