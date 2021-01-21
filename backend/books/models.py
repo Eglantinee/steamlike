@@ -51,36 +51,6 @@ class Genres(models.Model):
         db_table = 'genres'
 
 
-# class BookAuthor(models.Model):
-#     book = models.OneToOneField('Book', models.DO_NOTHING, primary_key=True)
-#     author = models.ForeignKey('Author', models.DO_NOTHING)
-#
-#     class Meta:
-#         managed = False
-#         db_table = 'BookAuthor'
-#         unique_together = (('book', 'author'),)
-
-
-# class BookGenre(models.Model):
-#     book = models.OneToOneField('Book', models.DO_NOTHING, primary_key=True)
-#     genre = models.ForeignKey('Genres', models.DO_NOTHING)
-#
-#     class Meta:
-#         managed = False
-#         db_table = 'BookGenre'
-#         unique_together = (('book', 'genre'),)
-
-
-# class UserGroup(models.Model):
-#     user = models.OneToOneField('User', models.DO_NOTHING, primary_key=True)
-#     group = models.ForeignKey('UserGroup', models.DO_NOTHING)
-#
-#     class Meta:
-#         managed = False
-#         db_table = 'UserGroup'
-#         unique_together = (('user', 'groupe'),)
-
-
 class UserGroup(models.Model):
     group_id = models.AutoField(primary_key=True)
     group_name = models.CharField(max_length=45, null=True)
