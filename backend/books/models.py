@@ -2,8 +2,11 @@ from django.db import models
 
 
 class Publisher(models.Model):
-    publisher_id = models.IntegerField(primary_key=True)
-    name = models.CharField(max_length=45, blank=True, null=True)
+    publisher_id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=45, null=True)
+
+    def __str__(self):
+        return self.name
 
     class Meta:
         # managed = False
@@ -11,9 +14,12 @@ class Publisher(models.Model):
 
 
 class Series(models.Model):
-    series_id = models.IntegerField(primary_key=True)
-    publisher = models.ForeignKey(Publisher, models.DO_NOTHING)
-    title = models.CharField(max_length=45, blank=True, null=True)
+    series_id = models.AutoField(primary_key=True)
+    publisher = models.ForeignKey(Publisher, models.CASCADE)
+    title = models.CharField(max_length=45, null=True)
+
+    def __str__(self):
+        return self.title
 
     class Meta:
         db_table = 'series'
@@ -21,19 +27,25 @@ class Series(models.Model):
 
 
 class Author(models.Model):
-    author_id = models.IntegerField(primary_key=True)
-    first_name = models.CharField(max_length=45, blank=True, null=True)
-    last_name = models.CharField(max_length=45, blank=True, null=True)
-    birthday = models.DateField(blank=True, null=True)
-    sex = models.CharField(max_length=45, blank=True, null=True)
+    author_id = models.AutoField(primary_key=True)
+    first_name = models.CharField(max_length=45, null=True)
+    last_name = models.CharField(max_length=45, null=True)
+    birthday = models.DateField(null=True)
+    sex = models.CharField(max_length=45, null=True)
+
+    def __str__(self):
+        return "{} {}".format(self.last_name, self.first_name)
 
     class Meta:
         db_table = 'author'
 
 
 class Genres(models.Model):
-    genre_id = models.IntegerField(primary_key=True)
-    genre_name = models.CharField(max_length=45, blank=True, null=True)
+    genre_id = models.AutoField(primary_key=True)
+    genre_name = models.CharField(max_length=45, null=True)
+
+    def __str__(self):
+        return self.genre_name
 
     class Meta:
         db_table = 'genres'
@@ -70,26 +82,29 @@ class Genres(models.Model):
 
 
 class UserGroup(models.Model):
-    group_id = models.IntegerField(primary_key=True)
-    group_name = models.CharField(max_length=45, blank=True, null=True)
+    group_id = models.AutoField(primary_key=True)
+    group_name = models.CharField(max_length=45, null=True)
 
     class Meta:
         db_table = 'usergroup'
 
 
 class Book(models.Model):
-    book_id = models.IntegerField(primary_key=True)
-    publisher = models.ForeignKey('Publisher', models.DO_NOTHING)
-    series = models.ForeignKey('Series', models.DO_NOTHING)
+    book_id = models.AutoField(primary_key=True)
+    publisher = models.ForeignKey('Publisher', models.CASCADE)
+    series = models.ForeignKey('Series', models.DO_NOTHING, null=True, blank=True)
     genres = models.ManyToManyField(Genres)
     authors = models.ManyToManyField(Author)
-    title = models.CharField(max_length=45, blank=True, null=True)
-    year = models.DateField(blank=True, null=True)
+    title = models.CharField(max_length=45, null=True)
+    year = models.DateField(null=True)
     num_of_pages = models.IntegerField(blank=True, null=True)
     price = models.DecimalField(max_digits=10, decimal_places=0, blank=True, null=True)
     url = models.CharField(max_length=45, blank=True, null=True)
-    images = models.ImageField(upload_to="images/", default=models.NullBooleanField)
+    images = models.ImageField(upload_to="images/", blank=True)
     annotation = models.CharField(max_length=45, blank=True, null=True)
+
+    def __str__(self):
+        return self.title
 
     class Meta:
         db_table = 'book'
@@ -97,7 +112,7 @@ class Book(models.Model):
 
 
 class User(models.Model):
-    user_id = models.IntegerField(primary_key=True)
+    user_id = models.AutoField(primary_key=True)
     groups = models.ManyToManyField(UserGroup)
     email = models.CharField(max_length=45, blank=True, null=True)
     first_name = models.CharField(max_length=45, blank=True, null=True)
@@ -107,6 +122,9 @@ class User(models.Model):
     birthday = models.DateField(blank=True, null=True)
     password = models.CharField(max_length=45, blank=True, null=True)
     balance = models.DecimalField(max_digits=10, decimal_places=0, blank=True, null=True)
+
+    def __str__(self):
+        return "{} {}".format(self.last_name, self.first_name)
 
     class Meta:
         db_table = 'user'
@@ -124,7 +142,7 @@ class BookHasUser(models.Model):
 
 
 class Comment(models.Model):
-    comment_id = models.IntegerField(primary_key=True)
+    comment_id = models.AutoField(primary_key=True)
     book = models.ForeignKey(Book, models.DO_NOTHING)
     user = models.ForeignKey(User, models.DO_NOTHING)
     text = models.CharField(max_length=45, blank=True, null=True)
