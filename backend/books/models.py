@@ -88,7 +88,7 @@ class Book(models.Model):
     num_of_pages = models.IntegerField(blank=True, null=True)
     price = models.DecimalField(max_digits=10, decimal_places=0, blank=True, null=True)
     url = models.CharField(max_length=45, blank=True, null=True)
-    images = models.TextField(blank=True, null=True)
+    images = models.ImageField(upload_to="images/", default=models.NullBooleanField)
     annotation = models.CharField(max_length=45, blank=True, null=True)
 
     class Meta:
