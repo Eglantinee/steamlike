@@ -12,26 +12,15 @@ export default {
   name: "Login",
   data() {
     return {
-      msg: 'Hello!',
-    };
+      msg: null,
+    }
   },
-
-  methods: {
-    getMessage() {
-      const path = 'http://localhost:8000/login';
-      axios.get(path)
-          .then((res) => {
-            this.msg = res.data;
-          })
-          .catch((error) => {
-            // eslint-выключение следующей строки
-            console.error(error);
-          });
-    },
-  },
-  created() {
-    this.getMessage();
-  },
+  mounted() {
+    console.log('AAAAAAAAAAAA')
+    axios
+        .get('http://localhost:8000/login/')
+        .then(response => this.msg = response.data)
+  }
 }
 </script>
 
