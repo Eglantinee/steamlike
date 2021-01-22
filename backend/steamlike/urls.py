@@ -22,8 +22,8 @@ from books import views as book_view
 from accounts import views as account_view
 
 router = routers.DefaultRouter()
-router.register(r'book', book_view.BookViewSet)
-router.register(r'login', account_view.BookViewSet)  # ZAGLuSHKA
+router.register(r'book', book_view.BookViewSet, basename='book')
+router.register(r'login', account_view.BookViewSet, basename='login')  # ZAGLuSHKA
 
 urlpatterns = [
     path('', include(router.urls)),
