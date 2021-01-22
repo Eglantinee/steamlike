@@ -6,6 +6,9 @@ class BookSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Book
         fields = ["title", "year", "num_of_pages", "price", "url", "images", "annotation"]
+        extra_kwargs = {"title": {'required': True, 'allow_null': False},
+                        "year": {'required': True, 'allow_null': False},
+                        "images": {'required': True, 'allow_null': False}}
 
 
 class AuthorSerializer(serializers.HyperlinkedModelSerializer):

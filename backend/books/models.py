@@ -1,3 +1,5 @@
+from django.core.validators import MinValueValidator
+from decimal import Decimal
 from django.db import models
 
 
@@ -66,9 +68,10 @@ class Book(models.Model):
     genres = models.ManyToManyField(Genres)
     authors = models.ManyToManyField(Author)
     title = models.CharField(max_length=45, null=True)
-    year = models.DateField(null=True)
+    year = models.DateField(blank=True, null=True)
     num_of_pages = models.IntegerField(blank=True, null=True)
-    price = models.DecimalField(max_digits=10, decimal_places=0, blank=True, null=True)
+    price = models.DecimalField(max_digits=10, decimal_places=0, blank=True, null=True,
+                                validators=[MinValueValidator(Decimal('0.01'))])
     url = models.CharField(max_length=45, blank=True, null=True)
     images = models.ImageField(upload_to="images/", blank=True)
     annotation = models.CharField(max_length=45, blank=True, null=True)
