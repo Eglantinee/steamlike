@@ -18,16 +18,18 @@ from django.urls import path, include
 from rest_framework import routers
 from django.conf import settings
 from django.conf.urls.static import static
-from books import views
-
+from books import views as book_view
+from accounts import views as account_view
 
 router = routers.DefaultRouter()
-router.register(r'book', views.BookViewSet)
+router.register(r'book', book_view.BookViewSet)
+router.register(r'login', account_view.BookViewSet)  # ZAGLuSHKA
 
 urlpatterns = [
     path('', include(router.urls)),
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
+    # path('login/', )
 ]
 
 if settings.DEBUG:
