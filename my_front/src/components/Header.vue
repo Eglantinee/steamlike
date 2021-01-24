@@ -1,8 +1,9 @@
 <template>
-  <div class="header">
+  <div class="container-fluid">
     <div class="main-banner">
       <h1 class="my-logo">Steamlike</h1>
     </div>
+    <div class="w-100"></div>
     <div class="navbar">
       <ul>
         <li class="first-item"><a href="#">Link</a></li>
@@ -25,16 +26,21 @@ export default {
 </script>
 
 <style scoped>
+.container-fluid{
+  padding: 0;
+}
 .main-banner {
   background-image: url("../assets/images/baner.jpg");
+  background-size: 100% 100%;
   height: 300px;
   color: white;
   font-style: italic;
 }
 
-.my-logo {
+.main-banner h1{
   padding: 50px;
 }
+
 .navbar ul {
   list-style-type: none;
   padding: 0;
@@ -42,25 +48,30 @@ export default {
   overflow: hidden;
   background-color: white;
 }
-.navbar li{
+
+.navbar li {
   float: left;
 }
-.navbar li.first-item{
+
+.navbar li.first-item {
   padding-left: 200px;
 }
-.navbar a{
+
+.navbar a {
   display: block;
   color: black;
   padding-top: 16px;
   padding-left: 50px;
   text-decoration: none;
 }
+
 form.search-form {
   padding-top: 16px;
   padding-right: 100px;
   text-decoration: none;
 }
-form.search-form input[type=text]{
+
+form.search-form input[type=text] {
   float: left;
   width: 200px;
   height: 1.5rem;
@@ -71,7 +82,8 @@ form.search-form input[type=text]{
   border: none;
   padding-left: 10px;
 }
-form.search-form button{
+
+form.search-form button {
   float: left;
   width: 1.5rem;
   height: 1.5rem;

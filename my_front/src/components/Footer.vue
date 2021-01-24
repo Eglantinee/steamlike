@@ -1,7 +1,9 @@
 <template>
-  <div class="header">
-    <div class="footer-image">
-      <h1 class="my-logo">Footer</h1>
+  <div class="container-fluid">
+    <div class="footer-grid_section_w3layouts">
+      <div class="footer-image">
+        <h1 class="w3layouts-footer">Footer</h1>
+      </div>
     </div>
   </div>
 </template>
@@ -13,14 +15,20 @@ export default {
 </script>
 
 <style scoped>
+.container-fluid {
+  padding: 50px 0 0 0;
+  /*position: absolute;*/
+  /*bottom: 0;*/
+}
 .footer-image {
   background-image: url("../assets/images/baner.jpg");
   height: 300px;
   color: white;
   font-style: italic;
+  background-size: 100% 100%;
 }
 
-.my-logo {
+.footer-image h1 {
   padding-left: 50%;
   padding-top: 150px;
 }
