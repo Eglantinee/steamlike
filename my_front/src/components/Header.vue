@@ -1,20 +1,27 @@
 <template>
   <div class="container-fluid">
-    <div class="main-banner">
-      <h1 class="my-logo">Steamlike</h1>
+    <div class="row">
+      <div class="col-12 column">
+        <div class="main-banner">
+          <h1 class="my-logo">Steamlike</h1>
+        </div>
+      </div>
     </div>
-    <div class="w-100"></div>
-    <div class="navbar">
-      <ul>
-        <li class="first-item"><a href="#">Link</a></li>
-        <li><a href="#">Link</a></li>
-        <li><a href="#">Link</a></li>
-        <li><a href="#" class="right">Link</a></li>
-      </ul>
-      <form class="search-form" action="">
-        <input type="text" placeholder="Search..." name="search">
-        <button type="submit"><i class="fa fa-search"></i></button>
-      </form>
+    <div class="row">
+      <div class="col-12 column">
+        <div class="navbar">
+          <ul>
+            <li class="first-item"><a href="#">Link</a></li>
+            <li><a href="#">Link</a></li>
+            <li><a href="#">Link</a></li>
+            <li><a href="#" class="right">Link</a></li>
+          </ul>
+          <form class="search-form" action="">
+            <input type="text" placeholder="Search..." name="search">
+            <button type="submit"><i class="fa fa-search"></i></button>
+          </form>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -26,9 +33,8 @@ export default {
 </script>
 
 <style scoped>
-.container-fluid{
-  padding: 0;
-}
+
+
 .main-banner {
   background-image: url("../assets/images/baner.jpg");
   background-size: 100% 100%;
@@ -37,7 +43,7 @@ export default {
   font-style: italic;
 }
 
-.main-banner h1{
+.main-banner h1 {
   padding: 50px;
 }
 
