@@ -9,7 +9,8 @@ from rest_framework import status
 class BookViewSet(viewsets.ModelViewSet):
     # queryset = Book.objects.all()
     serializer_class = BookSerializer
-    permission_classes = [IsAdminUser]
+
+    # permission_classes = [IsAdminUser]
 
     def get_queryset(self):
         print(type(Book.objects.all()))
