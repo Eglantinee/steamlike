@@ -3,10 +3,13 @@
     <div class="row row-mov">
       <div class="col-2 sidebar">
         <ul>
-          <li><a>First</a></li>
-          <li><a>First</a></li>
-          <li><a>First</a></li>
-          <li><a>First</a></li>
+          <template v-for="genre in genres">
+            <li><a>{{ genre.genre_name }}</a></li>
+          </template>
+          <!--          <li><a>First</a></li>-->
+          <!--          <li><a>First</a></li>-->
+          <!--          <li><a>First</a></li>-->
+          <!--          <li><a>First</a></li>-->
         </ul>
       </div>
       <div class="col-10 list-view">
@@ -31,7 +34,8 @@ export default {
   name: "Main",
   data() {
     return {
-      books: null
+      books: null,
+      genres: null
     }
   },
   created() {
@@ -39,6 +43,10 @@ export default {
     axios.get('http://localhost:8000/book/').then(response => {
           this.books = response.data;
           console.log(response.data[0].images)
+        }
+    )
+    axios.get('http://localhost:8000/genre/').then(response => {
+          this.genres = response.data
         }
     )
   }
@@ -80,10 +88,12 @@ export default {
   padding-left: 50px;
   background-color: floralwhite;
 }
+
 .row-mov {
   padding: inherit;
 }
-.editContainer{
+
+.editContainer {
   min-height: 350px;
   padding-top: 5px;
 }
