@@ -11,6 +11,13 @@ class BookSerializer(serializers.HyperlinkedModelSerializer):
                         "images": {'required': True, 'allow_null': False}}
 
 
+class GenreSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Genres
+        fields = ['genre_name']
+        extra_kwargs = {"genre_name": {'required': True, 'allow_null': False}}
+
+
 class AuthorSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Author

@@ -1,5 +1,5 @@
-from books.models import Book
-from books.serializers import BookSerializer
+from books.models import Book, Genres
+from books.serializers import BookSerializer, GenreSerializer
 from rest_framework import viewsets
 from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
@@ -25,3 +25,12 @@ class BookViewSet(viewsets.ModelViewSet):
             # method for create data into DB
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class GenresViewSet(viewsets.ModelViewSet):
+    serializer_class = GenreSerializer
+
+    def get_queryset(self):
+        genre = Genres.objects.all()
+        serializer = GenreSerializer(data=genre)
+        return serializer.initial_data
