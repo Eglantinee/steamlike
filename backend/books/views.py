@@ -13,10 +13,18 @@ class BookViewSet(viewsets.ModelViewSet):
     # permission_classes = [IsAdminUser]
 
     def get_queryset(self):
-        print(type(Book.objects.all()))
-        book = Book.objects.all()
-        serializer = BookSerializer(data=book)
-        return serializer.initial_data
+        params = self.request.query_params.dict()
+        if params:
+            print(params['filter'])
+            response = Book.objects.filter(genres=1)
+            serializer = BookSerializer(data=response)
+            print(serializer.initial_data, '11111')
+            return serializer.initial_data
+        else:
+            print(type(Book.objects.all()))
+            book = Book.objects.all()
+            serializer = BookSerializer(data=book)
+            return serializer.initial_data
 
     def create(self, request, *args, **kwargs):
         serializer = BookSerializer(data=request.data, context={'request': request})
@@ -28,9 +36,5 @@ class BookViewSet(viewsets.ModelViewSet):
 
 
 class GenresViewSet(viewsets.ModelViewSet):
+    queryset = Genres.objects.all()
     serializer_class = GenreSerializer
-
-    def get_queryset(self):
-        genre = Genres.objects.all()
-        serializer = GenreSerializer(data=genre)
-        return serializer.initial_data
