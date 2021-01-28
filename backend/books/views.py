@@ -1,3 +1,4 @@
+from rest_framework.decorators import action
 from books.models import Book, Genres
 from books.serializers import BookSerializer, GenreSerializer
 from rest_framework import viewsets
@@ -7,29 +8,55 @@ from rest_framework import status
 
 
 class BookViewSet(viewsets.ModelViewSet):
-    # queryset = Book.objects.all()
+    """
+    This class will be used to represent books depends on chosen filters
+    """
     serializer_class = BookSerializer
-
-    # permission_classes = [IsAdminUser]
 
     def get_queryset(self):
         params = self.request.query_params.dict()
+        for key, value in params.items():
+            params[key] = value.split(',')
+
+        response = None
         if params:
-            print(params['filter'])
-            response = Book.objects.filter(genres=1)
-            serializer = BookSerializer(data=response)
-            print(serializer.initial_data, '11111')
-            return serializer.initial_data
+            for key in params.keys():
+                for value in params[key]:
+                    genre_id = Genres.objects.filter(genre_name=value).values('genre_id')
+                    my_id = genre_id[0]['genre_id']
+                    print(my_id)
+                    response = Book.objects.filter(**{key: my_id})
         else:
-            print(type(Book.objects.all()))
-            book = Book.objects.all()
-            serializer = BookSerializer(data=book)
-            return serializer.initial_data
+            response = Book.objects.all()
+        return response
+
+    # can do this to provide some get requests for url /book/{id}/my_filter
+    # @action(methods=['get'], detail=True)
+    # def my_filter(self, request, pk):
+    #     print(self.request)
+    #     return Response(status.HTTP_200_OK)
+
+    # filters = ["genre", "price", "publisher"]
+
+    # permission_classes = [IsAdminUser]
+    # def get_queryset(self):
+    #     self.prepare_params()
+    #     print("hello it is me")
+
+    # def get_queryset(self, response: serializer_class):
+    # if params:
+    #     response = Book.objects.filter(genres=1)
+    #     serializer = BookSerializer(data=response)
+    #     return serializer.initial_data
+    # else:
+    #     book = Book.objects.all()
+    #     serializer = BookSerializer(data=book)
+    #     return serializer.initial_data
+    # return response.initial_data
 
     def create(self, request, *args, **kwargs):
         serializer = BookSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
-            print(serializer.data)
             # method for create data into DB
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
