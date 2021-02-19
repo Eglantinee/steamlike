@@ -36,24 +36,6 @@ class BookViewSet(viewsets.ModelViewSet):
     #     print(self.request)
     #     return Response(status.HTTP_200_OK)
 
-    # filters = ["genre", "price", "publisher"]
-
-    # permission_classes = [IsAdminUser]
-    # def get_queryset(self):
-    #     self.prepare_params()
-    #     print("hello it is me")
-
-    # def get_queryset(self, response: serializer_class):
-    # if params:
-    #     response = Book.objects.filter(genres=1)
-    #     serializer = BookSerializer(data=response)
-    #     return serializer.initial_data
-    # else:
-    #     book = Book.objects.all()
-    #     serializer = BookSerializer(data=book)
-    #     return serializer.initial_data
-    # return response.initial_data
-
     def create(self, request, *args, **kwargs):
         serializer = BookSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
