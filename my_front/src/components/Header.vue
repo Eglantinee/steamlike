@@ -12,7 +12,7 @@
         <div class="navbar">
           <ul>
             <li class="first-item"><a href="#">Link</a></li>
-            <li><a href="#">Link</a></li>
+            <li><router-link :to="{name: 'About'}">Link</router-link></li>
             <li><a href="#">Link</a></li>
             <li><a href="#" class="right">Link</a></li>
           </ul>

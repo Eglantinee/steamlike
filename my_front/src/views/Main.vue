@@ -18,7 +18,8 @@
         <div class="row">
           <template v-for="book in books">
             <div class="col-3">
-              <p>{{ book.title }}</p>
+              <!--                <p v-on:click="singlePage(book)">{{ book.title }}</p>-->
+              <router-link :to="{name:'single', params: { id: book.book_id, book:book }}">{{ book.title }}</router-link>
               <img v-bind:src="book.images" alt="template" width="200" height="200">
               <p> {{ book.price }}</p>
             </div>
@@ -32,6 +33,7 @@
 <script>
 import axios from "axios";
 import qs from "qs"
+import router from "@/router";
 
 export default {
   name: "Main",
@@ -64,8 +66,8 @@ export default {
         this.books = response.data;
       })
     },
-    log(checkboxEvent) {
-      console.log(checkboxEvent)
+    singlePage: function (id) {
+      return router.push({name: 'Single', params: {id}})
     }
   }
 }
