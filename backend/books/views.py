@@ -1,6 +1,6 @@
 from rest_framework.decorators import action
 from books.models import Book, Genres
-from books.serializers import BookSerializer, GenreSerializer
+from books.serializers import BookSerializer, GenreSerializer, AdditionalInfo
 from rest_framework import viewsets
 from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
@@ -47,3 +47,13 @@ class BookViewSet(viewsets.ModelViewSet):
 class GenresViewSet(viewsets.ModelViewSet):
     queryset = Genres.objects.all()
     serializer_class = GenreSerializer
+
+
+class AdditionalBookInfo(viewsets.ModelViewSet):
+    serializer_class = AdditionalInfo
+    # queryset = Book.objects.all()
+
+    def get_queryset(self):
+        response = Book.objects.all()
+        print(response)
+        return response

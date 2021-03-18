@@ -22,9 +22,10 @@ from books import views as book_view
 from accounts import views as account_view
 
 router = routers.DefaultRouter()
-router.register(r'book', book_view.BookViewSet, basename='book')
+router.register(r'book', book_view.AdditionalBookInfo, basename='book')
 router.register(r'login', account_view.BookViewSet, basename='login')  # ZAGLuSHKA
 router.register(r'genre', book_view.GenresViewSet, basename='genre')
+router.register(r"sorted", book_view.AdditionalBookInfo, basename='sorted')
 # router.register(r'admin', admin.AdminSite, basename='admin')
 
 urlpatterns = [
