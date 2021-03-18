@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-12 column">
         <div class="main-banner">
-          <h1 class="my-logo">Steamlike</h1>
+          <h1 style="color: #1e7e34">Steamlike</h1>
         </div>
       </div>
     </div>
@@ -12,12 +12,17 @@
         <div class="navbar">
           <ul>
             <li class="first-item"><a href="#">Link</a></li>
-            <li><router-link :to="{name: 'About'}">Link</router-link></li>
+            <li>
+
+              <router-link :to="{name: 'About'}">Link</router-link>
+            </li>
             <li><a href="#">Link</a></li>
             <li><a href="#" class="right">Link</a></li>
           </ul>
           <form class="search-form" action="">
-            <input type="text" placeholder="Search..." name="search">
+            <label>
+              <input type="text" placeholder="Search..." name="search">
+            </label>
             <button type="submit"><i class="fa fa-search"></i></button>
           </form>
         </div>
@@ -36,10 +41,10 @@ export default {
 
 
 .main-banner {
-  background-image: url("../assets/images/baner.jpg");
+  background-image: url("../assets/new.jpg");
   background-size: 100% 100%;
   height: 300px;
-  color: white;
+  /*color: white;*/
   font-style: italic;
 }
 

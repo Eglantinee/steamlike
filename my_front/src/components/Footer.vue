@@ -20,7 +20,7 @@ export default {
 
 
 .footer-image {
-  background-image: url("../assets/images/baner.jpg");
+  background-image: url("../assets/new.jpg");
   height: 300px;
   color: white;
   font-style: italic;
