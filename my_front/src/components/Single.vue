@@ -1,34 +1,21 @@
 <template>
-<!--  <div class="container-fluid editContainer">-->
-<!--    <div class="row row-mov">-->
-  <div><p> This is content {{id}} </p></div>
-
-<!--      <div class="col-2 sidebar">-->
-<!--        <template v-for="genre in genres">-->
-<!--          <div>-->
-<!--            &lt;!&ndash;suppress HtmlFormInputWithoutLabel &ndash;&gt;-->
-<!--            <input type="checkbox" :id=genre.genre_name :value=genre.genre_name v-model="filter">-->
-<!--            <label :for=genre.genre_name style="padding-left: 10px">{{ genre.genre_name }}</label>-->
-<!--          </div>-->
-<!--        </template>-->
-<!--        <input type="button" value="Submit-button" v-on:click="filterBook">-->
-<!--        <div>-->
-<!--          <p>{{ filter }}</p>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--      <div class="col-10 list-view">-->
-<!--        <div class="row">-->
-<!--&lt;!&ndash;          <template v-for="book in books">&ndash;&gt;-->
-<!--            <div class="col-3">-->
-<!--              <p>A new text {{ id }}</p>-->
-<!--&lt;!&ndash;              <img v-bind:src="book.images" alt="template" width="200" height="200">&ndash;&gt;-->
-<!--&lt;!&ndash;              <p> {{ book.price }}</p>&ndash;&gt;-->
-<!--            </div>-->
-<!--&lt;!&ndash;          </template>&ndash;&gt;-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
+  <div class="container-fluid editContainer">
+    <div class="row">
+      <div class="col-3">
+        <img v-bind:src="book.images" alt="template" class="image">
+<!--        <p> This is content {{ book }} </p>-->
+      </div>
+      <div class="col-9">
+        <p style="margin-top: 10px">{{book.title}}</p>
+        <p>{{book.author[0].first_name}} {{book.author[0].last_name}}</p>
+        <p>Year: {{book.year}}</p>
+        <div class="col-8" style="padding: 0">
+          <p>Annotation:</p>
+          <p>{{book.annotation}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -42,20 +29,15 @@ export default {
   },
   data() {
     return {
-      filter: [],
       book: null,
-      genres: null
     }
-    },
-    created() {
-      console.log(this.id)
-      // }
-      axios.get('http://localhost:8000/book/' + this.id + "/").then(response => {
-            this.book = response.data;
-            console.log(response.data)
-          }
-      )
-    }
+  },
+  created() {
+    axios.get('http://localhost:8000/book/' + this.id + "/").then(response => {
+          this.book = response.data
+        }
+    )
+  }
 
 }
 //     axios.get('http://localhost:8000/genre/').then(response => {
@@ -123,5 +105,10 @@ export default {
 .editContainer {
   min-height: 350px;
   padding-top: 5px;
+}
+.image {
+  width: 200px;
+  height: 200px;
+  margin: 20px
 }
 </style>
