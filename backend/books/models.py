@@ -12,7 +12,8 @@ class Publisher(models.Model):
 
     class Meta:
         # managed = False
-        db_table = 'publisher'
+        verbose_name = "publisher"
+        verbose_name_plural = "publishers"
 
 
 class Series(models.Model):
@@ -24,13 +25,15 @@ class Series(models.Model):
         return self.title
 
     class Meta:
-        db_table = 'series'
+        verbose_name = "series"
+        verbose_name_plural = "series"
         unique_together = (('series_id', 'publisher'),)
 
 
 class Author(models.Model):
     author_id = models.AutoField(primary_key=True)
     first_name = models.CharField(max_length=45, null=True)
+    middle_name = models.CharField(max_length=45, null=True)
     last_name = models.CharField(max_length=45, null=True)
     birthday = models.DateField(null=True)
     sex = models.CharField(max_length=45, null=True)
@@ -39,7 +42,8 @@ class Author(models.Model):
         return "{} {}".format(self.last_name, self.first_name)
 
     class Meta:
-        db_table = 'author'
+        verbose_name = "author"
+        verbose_name_plural = "authors"
 
 
 class Genres(models.Model):
@@ -50,7 +54,8 @@ class Genres(models.Model):
         return self.genre_name
 
     class Meta:
-        db_table = 'genres'
+        verbose_name = "genre"
+        verbose_name_plural = "genres"
 
 
 class UserGroup(models.Model):
@@ -58,7 +63,8 @@ class UserGroup(models.Model):
     group_name = models.CharField(max_length=45, null=True)
 
     class Meta:
-        db_table = 'usergroup'
+        verbose_name = "user group"
+        verbose_name_plural = "user groups"
 
 
 class Book(models.Model):
@@ -66,7 +72,7 @@ class Book(models.Model):
     publisher = models.ForeignKey('Publisher', models.CASCADE)
     series = models.ForeignKey('Series', models.DO_NOTHING, null=True, blank=True)
     genres = models.ManyToManyField(Genres)
-    authors = models.ManyToManyField(Author)
+    author = models.ManyToManyField(Author)
     title = models.CharField(max_length=45, null=True)
     year = models.DateField(blank=True, null=True)
     num_of_pages = models.IntegerField(blank=True, null=True)
@@ -74,13 +80,14 @@ class Book(models.Model):
                                 validators=[MinValueValidator(Decimal('0.01'))])
     url = models.CharField(max_length=45, blank=True, null=True)
     images = models.ImageField(upload_to="images/", blank=True)
-    annotation = models.CharField(max_length=45, blank=True, null=True)
+    annotation = models.CharField(max_length=1200, blank=True, null=True)
 
     def __str__(self):
         return self.title
 
     class Meta:
-        db_table = 'book'
+        verbose_name = "book"
+        verbose_name_plural = "books"
         unique_together = (('book_id', 'publisher', 'series'),)
 
 
@@ -100,7 +107,8 @@ class User(models.Model):
         return "{} {}".format(self.last_name, self.first_name)
 
     class Meta:
-        db_table = 'user'
+        verbose_name = "user"
+        verbose_name_plural = "users"
 
 
 class BookHasUser(models.Model):
@@ -122,5 +130,6 @@ class Comment(models.Model):
     date = models.DateField(blank=True, null=True)
 
     class Meta:
-        db_table = 'comment'
+        verbose_name = "comment"
+        verbose_name_plural = "comments"
         unique_together = (('comment_id', 'book', 'user'),)

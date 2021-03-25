@@ -11,23 +11,32 @@ class BookViewSet(viewsets.ModelViewSet):
     """
     This class will be used to represent books depends on chosen filters
     """
-    serializer_class = BookSerializer
+    serializer_class = AdditionalInfo
 
     def get_queryset(self):
         params = self.request.query_params.dict()
+        print("input params -> ", params)
         for key, value in params.items():
-            params[key] = value.split(',')
+            params[key] = value.split(",")
 
-        response = None
+        print(params)
+        response = []
         if params:
             for key in params.keys():
                 for value in params[key]:
                     genre_id = Genres.objects.filter(genre_name=value).values('genre_id')
+                    if not genre_id:
+                        return []
                     my_id = genre_id[0]['genre_id']
                     print(my_id)
-                    response = Book.objects.filter(**{key: my_id})
+                    tmp = Book.objects.filter(genres=my_id)
+                    if tmp:
+                        print("tmp-> ", tmp)
+                        print("data", AdditionalInfo(tmp[0]).data)
+                        response.append(AdditionalInfo(tmp[0]).data)
         else:
             response = Book.objects.all()
+        print(response, "response")
         return response
 
     # can do this to provide some get requests for url /book/{id}/my_filter
@@ -51,6 +60,7 @@ class GenresViewSet(viewsets.ModelViewSet):
 
 class AdditionalBookInfo(viewsets.ModelViewSet):
     serializer_class = AdditionalInfo
+
     # queryset = Book.objects.all()
 
     def get_queryset(self):
