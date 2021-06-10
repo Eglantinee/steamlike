@@ -33,7 +33,7 @@ export default {
     }
   },
   created() {
-    axios.get('http://localhost:8000/book/' + this.id + "/").then(response => {
+    axios.get('http://localhost:8000/books/' + this.id + "/").then(response => {
           this.book = response.data
         }
     )

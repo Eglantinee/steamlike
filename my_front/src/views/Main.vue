@@ -29,7 +29,7 @@
               </div>
               <div class="book_author">
                 <template v-for="author in book.authors">
-                  <pre>{{ author.first_name}} {{ author.last_name }}</pre>
+                  <pre>{{ author.first_name }} {{ author.last_name }}</pre>
                 </template>
               </div>
             </div>
@@ -55,21 +55,21 @@ export default {
     }
   },
   created() {
-    axios.get('http://localhost:8000/book/').then(response => {
+    axios.get('http://localhost:8000/books/').then(response => {
           this.books = response.data;
           console.log(this.books)
           // console.log(response.data[0].images)
         }
     )
-    axios.get('http://localhost:8000/genre/').then(response => {
+    axios.get('http://localhost:8000/genres/').then(response => {
           this.genres = response.data
         }
     )
   },
   methods: {
     filterBook: function () {
-      axios.get('http://localhost:8000/book/', {
-        params: {filter: this.filter}, paramsSerializer: params => {
+      axios.get('http://localhost:8000/books/', {
+        params: {genre: this.filter}, paramsSerializer: params => {
           return qs.stringify(params, {arrayFormat: "comma"})
         }
       }).then(response => {
@@ -139,6 +139,7 @@ export default {
   padding-top: 10px;
   text-align: center;
 }
+
 .book_author {
   padding-top: 10px;
   text-align: center;

@@ -1,56 +1,37 @@
 from rest_framework.decorators import action
+from rest_framework.generics import ListAPIView
+
 from books.models import Book, Genres
-from books.serializers import BookSerializer, GenreSerializer, AdditionalInfo
+from books.serializers import BookSerializer, GenreSerializer, BookInfoSerializer
 from rest_framework import viewsets
 from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework import filters
+from books.pagination import StandardResultsSetPagination
+from books.filters import MainFilter
+from django_filters.rest_framework import DjangoFilterBackend
 
 
 class BookViewSet(viewsets.ModelViewSet):
     """
-    This class will be used to represent books depends on chosen filters
+    This class will be used to represent book full info and make some kind of sort
     """
-    serializer_class = AdditionalInfo
+    queryset = Book.objects.all()
+    serializer_class = BookInfoSerializer
+    pagination_class = StandardResultsSetPagination
 
     def get_queryset(self):
-        params = self.request.query_params.dict()
-        print("input params -> ", params)
-        for key, value in params.items():
-            params[key] = value.split(",")
-
-        print(params)
         response = []
-        if params:
-            for key in params.keys():
-                for value in params[key]:
-                    genre_id = Genres.objects.filter(genre_name=value).values('genre_id')
-                    if not genre_id:
-                        return []
-                    my_id = genre_id[0]['genre_id']
-                    print(my_id)
-                    tmp = Book.objects.filter(genres=my_id)
-                    if tmp:
-                        print("tmp-> ", tmp)
-                        print("data", AdditionalInfo(tmp[0]).data)
-                        response.append(AdditionalInfo(tmp[0]).data)
+        if self.request.query_params.get('genre'):
+            print(self.request.query_params.get('genre'))
+            genres = self.request.query_params.get('genre').split(',')
+            books = Book.objects.filter(genres__genre_name__in=genres)
+            return books
         else:
             response = Book.objects.all()
-        print(response, "response")
+        print(response)
         return response
-
-    # can do this to provide some get requests for url /book/{id}/my_filter
-    # @action(methods=['get'], detail=True)
-    # def my_filter(self, request, pk):
-    #     print(self.request)
-    #     return Response(status.HTTP_200_OK)
-
-    def create(self, request, *args, **kwargs):
-        serializer = BookSerializer(data=request.data, context={'request': request})
-        if serializer.is_valid():
-            # method for create data into DB
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class GenresViewSet(viewsets.ModelViewSet):
@@ -58,12 +39,19 @@ class GenresViewSet(viewsets.ModelViewSet):
     serializer_class = GenreSerializer
 
 
-class AdditionalBookInfo(viewsets.ModelViewSet):
-    serializer_class = AdditionalInfo
-
-    # queryset = Book.objects.all()
+class BookInfoViewSet(viewsets.ModelViewSet):
+    """Class to represent books with custom filtering"""
+    serializer_class = BookInfoSerializer
 
     def get_queryset(self):
         response = Book.objects.all()
-        print(response)
         return response
+
+
+class BookSearchViewSet(ListAPIView):
+    queryset = Book.objects.all()
+    serializer_class = BookInfoSerializer
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter, DjangoFilterBackend]
+    search_fields = ['title', 'author__first_name', 'author__middle_name', 'author__last_name']
+    filterset_fields = ['genre']
+    ordering_fields = ['price']

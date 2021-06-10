@@ -1,18 +1,3 @@
-"""steamlike URL Configuration
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/3.1/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
@@ -20,19 +5,25 @@ from django.conf import settings
 from django.conf.urls.static import static
 from books import views as book_view
 from accounts import views as account_view
+from rest_framework.authtoken.views import obtain_auth_token
 
 router = routers.DefaultRouter()
-router.register(r'book', book_view.BookViewSet, basename='book')
-router.register(r'login', account_view.BookViewSet, basename='login')  # ZAGLuSHKA
-router.register(r'genre', book_view.GenresViewSet, basename='genre')
-router.register(r"sorted", book_view.AdditionalBookInfo, basename='sorted')
+router.register(r'books', book_view.BookViewSet, basename='books')
+router.register(r'genres', book_view.GenresViewSet, basename='genres')
+router.register(r'search_book', book_view.BookSearchViewSet, basename='search')
 # router.register(r'admin', admin.AdminSite, basename='admin')
 
 urlpatterns = [
     path('', include(router.urls)),
     path('admin/', admin.site.urls),
-    path('api-auth/', include('rest_framework.urls')),
-    # path('login/', )
+    path('accounts/', include('rest_framework.urls')),
+    path('accounts/create/', account_view.CreateUser.as_view()),
+    path('book/genres/', book_view.GenresViewSet.as_view({'get': 'list'})),
+    path('book/?search', book_view.BookSearchViewSet.as_view({'get': 'list'})),
+    path('accounts/auth-login/', obtain_auth_token),
+    # curl -X POST http://localhost:8000/accounts/auth-login/ -d "username=user1" -d "password=111111"
+    path('accounts/password_reset/', include('django_rest_passwordreset.urls', namespace='password_reset'))
+    # can be used either but it is not displayed at web
 ]
 
 if settings.DEBUG:
