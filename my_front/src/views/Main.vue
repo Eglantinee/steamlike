@@ -56,13 +56,15 @@ export default {
   },
   created() {
     axios.get('http://localhost:8000/books/').then(response => {
-          this.books = response.data;
-          console.log(this.books)
+          this.books = response.data.results;
+          // console.log(this.books)
+          // console.log(response)
+
           // console.log(response.data[0].images)
         }
     )
-    axios.get('http://localhost:8000/genres/').then(response => {
-          this.genres = response.data
+    axios.get('http://localhost:8000/book/genres/').then(response => {
+          this.genres = response.data.results
         }
     )
   },
@@ -73,7 +75,7 @@ export default {
           return qs.stringify(params, {arrayFormat: "comma"})
         }
       }).then(response => {
-        this.books = response.data;
+        this.books = response.data.results;
       })
     },
     singlePage: function (id) {

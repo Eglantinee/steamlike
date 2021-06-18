@@ -32,7 +32,7 @@ class CreateUserView(APIView):
         post_data = request.data
         serializer = UserSerializer(data=post_data)
         if serializer.is_valid(raise_exception=True):
-            serializer.save()
+            # serializer.save()
             send_mail(
                 'Subject here',
                 'Account was created.',
@@ -41,7 +41,9 @@ class CreateUserView(APIView):
                 fail_silently=False,
             )
             print(serializer.data)
-            return Response(data={'user': serializer.data})
+            username = serializer.data.get('username')
+            email = serializer.data.get('email')
+            return Response(data={'user': {'username': username, 'email': email}})
         return Response(data={'user': serializer.errors})
 
 
