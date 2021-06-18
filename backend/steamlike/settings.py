@@ -13,6 +13,8 @@ import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+import steamlike.password_validators
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Quick-start development settings - unsuitable for production
@@ -38,6 +40,7 @@ INSTALLED_APPS = [
     'accounts',
     'rest_framework.authtoken',
     'django_rest_passwordreset',
+    'rest_framework_swagger',
 ]
 
 MIDDLEWARE = [
@@ -102,6 +105,9 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
+    {
+        'NAME': 'steamlike.password_validators.ComplexPasswordValidator',
+    }
 ]
 
 # Internationalization
@@ -130,9 +136,16 @@ CORS_ORIGIN_WHITELIST = (
 )
 
 REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
     'DEFAULT_PAGINATION_CLASS': 'books.pagination.StandardResultsSetPagination',
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
     ],
 }
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_PORT: 25
+# EMAIL_HOST_USER: (Empty string)
+# EMAIL_HOST_PASSWORD: (Empty string)
+# EMAIL_USE_TLS: False
+# EMAIL_USE_SSL: False

@@ -77,8 +77,8 @@ class Book(models.Model):
     title = models.CharField(max_length=45, null=True)
     year = models.DateField(blank=True, null=True)
     num_of_pages = models.IntegerField(blank=True, null=True)
-    price = models.DecimalField(max_digits=10, decimal_places=0, blank=True, null=True,
-                                validators=[MinValueValidator(Decimal('0.01'))])
+    price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True,
+                                validators=[MinValueValidator(Decimal('0.00'))])
     url = models.CharField(max_length=45, blank=True, null=True)
     images = models.ImageField(upload_to="images/", blank=True)
     annotation = models.CharField(max_length=1200, blank=True, null=True)
@@ -115,17 +115,21 @@ class Book(models.Model):
 class BookHasUser(models.Model):
     book = models.ForeignKey('Book', models.DO_NOTHING)
     user = models.ForeignKey(User, models.DO_NOTHING)
-    price = models.IntegerField(blank=True, null=True)
+    price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True,
+                                validators=[MinValueValidator(Decimal('0.01'))])
     date = models.DateTimeField(blank=True, null=True)
 
     class Meta:
         db_table = 'book_has_user'
         unique_together = (('book', 'user'),)
 
+    def __str__(self):
+        return self.book.title
+
 
 class Comment(models.Model):
     comment_id = models.AutoField(primary_key=True)
-    book = models.ForeignKey(Book, models.DO_NOTHING)
+    book = models.ForeignKey('Book', models.DO_NOTHING)
     user = models.ForeignKey(User, models.DO_NOTHING)
     text = models.CharField(max_length=45, blank=True, null=True)
     date = models.DateField(blank=True, null=True)
@@ -134,3 +138,6 @@ class Comment(models.Model):
         verbose_name = "comment"
         verbose_name_plural = "comments"
         unique_together = (('comment_id', 'book', 'user'),)
+
+    def __str__(self):
+        return "{} - {}".format(self.user.username, self.book.title)
